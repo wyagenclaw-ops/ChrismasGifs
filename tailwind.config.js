@@ -1,0 +1,2 @@
+/** Paleta oficial Woodynet; los estilos de la app están en src/styles.css. */
+export default { content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'], theme: { extend: { colors: { woodynet: { blue: '#0057D9', navy: '#0B1F3A', sky: '#2D7FF9', amber: '#C97B2E', canvas: '#F5F7FA', line: '#DDE3EA' } }, fontFamily: { heading: ['Poppins', 'sans-serif'], sans: ['Inter', 'sans-serif'] } } }, plugins: [] };
