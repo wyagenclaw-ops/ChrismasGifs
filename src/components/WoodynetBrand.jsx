@@ -1,0 +1,1 @@
+export default function WoodynetBrand({variant='horizontal',theme='light'}) { return <img className={`brand brand-${variant}`} src={theme==='dark'?'/brand/logo-horizontal-dark.svg':variant==='isotype'?'/brand/isotype-color.svg':'/brand/logo-horizontal-color.svg'} alt="Woodynet"/>; }
