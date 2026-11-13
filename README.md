@@ -105,7 +105,21 @@ VITE_ADMIN_EMAIL=admin@tuempresa.com
 4. Pulsa **Create Web Service**. Render asignará `PORT`; `server.js` escucha `process.env.PORT || 3000` y sirve `dist` con fallback SPA.
 5. En Supabase, revisa **Authentication → URL Configuration** y agrega la URL pública de Render a **Site URL** y a las Redirect URLs permitidas (por ejemplo `https://tu-app.onrender.com/**`). Aunque el flujo actual usa email/contraseña, esta configuración evita problemas de redirección de Auth.
 
-## 7. Reemplazar los SVG de Woodynet
+## 7. Recuperación de contraseña
+
+La pantalla de acceso incluye **¿Olvidaste tu contraseña?**. El participante escribe su correo y Supabase envía un enlace. Al abrirlo, la aplicación muestra **Nueva contraseña**, **Confirmar nueva contraseña** y **Guardar nueva contraseña**; la actualización se realiza con `supabase.auth.updateUser({ password })`.
+
+Para que el enlace regrese correctamente a la aplicación:
+
+1. En Supabase abre **Authentication → URL Configuration**.
+2. En **Site URL** establece la URL pública de Render, por ejemplo `https://christmasgifs.onrender.com`.
+3. En **Redirect URLs** agrega la misma URL y el patrón `https://christmasgifs.onrender.com/**` (sustituye el dominio por el real de tu servicio).
+4. En **Authentication → Email Templates**, conserva habilitada la plantilla de recuperación de contraseña (*Reset Password*).
+5. Configura el proveedor de correo SMTP de Supabase para el uso real. El envío predeterminado tiene límites y no está pensado para correo masivo.
+
+La recuperación no crea otra cuenta ni modifica perfil, votos, lista de deseos o asignación del participante.
+
+## 8. Reemplazar los SVG de Woodynet
 
 Sustituye los archivos manteniendo exactamente estos nombres y rutas:
 
@@ -116,7 +130,7 @@ Sustituye los archivos manteniendo exactamente estos nombres y rutas:
 
 El componente `WoodynetBrand` los consume por ruta estática; no necesitas cambiar el código. Conserva las proporciones, área de protección y colores de marca. Los PNG `icon-192.png` e `icon-512.png` del manifest deben agregarse con esos nombres antes de publicar para que la instalación PWA muestre iconos definitivos. Los placeholders vectoriales incluidos cubren favicon y logos; genera los dos PNG desde el isotipo oficial antes del lanzamiento público.
 
-## 8. Flujo del evento
+## 9. Flujo del evento
 
 - **VOTING:** votación de presupuesto; se puede cambiar el voto hasta el cierre.
 - **WISHLIST:** alta/edición/borrado de hasta 3 deseos propios.
@@ -125,7 +139,7 @@ El componente `WoodynetBrand` los consume por ruta estática; no necesitas cambi
 
 El estado se evalúa en el cliente para la navegación y se vuelve a validar en PostgreSQL para autorizar las escrituras y el sorteo. Para esta versión, el ciclo del sorteo incluye a todos los perfiles registrados al momento de ejecutarlo.
 
-## 9. Comprobaciones antes de anunciar el intercambio
+## 10. Comprobaciones antes de anunciar el intercambio
 
 - [ ] Ejecutar `supabase/schema.sql` sin errores.
 - [ ] Configurar el correo admin en `app_config` antes de registrar participantes.
@@ -134,6 +148,7 @@ El estado se evalúa en el cliente para la navegación y se vuelve a validar en 
 - [ ] Confirmar que cada usuario solo ve su asignación.
 - [ ] Probar cierre de votación/listas y modo solo lectura.
 - [ ] Verificar imágenes, enlaces y Realtime.
+- [ ] Probar recuperación de contraseña con una cuenta de prueba y confirmar el retorno desde el correo a la URL de Render.
 - [ ] Ejecutar el sorteo una sola vez en una prueba controlada.
 - [ ] Añadir los iconos PNG PWA de 192 y 512 px.
 
