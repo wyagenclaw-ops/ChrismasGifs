@@ -1,3 +1,0 @@
-import { Home, Gift, LockKeyhole, ShieldCheck, UserRound } from 'lucide-react';
-const tabs=[['home','Inicio',Home],['participate','Participar',Gift],['friend','Mi Amigo',UserRound]];
-export default function BottomNav({active,onChange,isAdmin,drawCompleted}) { const all=[...tabs,...(isAdmin?[['admin','Admin',ShieldCheck]]:[])]; return <nav className="bottom-nav">{all.map(([id,label,Icon])=><button key={id} className={`nav-item ${active===id?'active':''}`} onClick={()=>onChange(id)}><span className="nav-icon"><Icon size={20}/>{id==='friend'&&!drawCompleted&&<LockKeyhole className="lock" size={11}/>}</span><span>{label}</span></button>)}</nav>; }
