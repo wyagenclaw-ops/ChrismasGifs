@@ -162,3 +162,150 @@ body{
   .app-shell::before,.app-shell::after,.auth-wrap::before,.auth-wrap::after{animation:none!important}
   *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}
 }
+
+/* ==========================================================
+   CHRISTMAS OFFICE · Rediseño visual de temporada
+   Solo presentación CSS. No modifica componentes ni lógica.
+   ========================================================== */
+:root{
+  --pine:#145b43;
+  --pine-deep:#0b3d31;
+  --berry:#a92f42;
+  --berry-soft:#fff0f1;
+  --ice:#e8f2fb;
+  --gold:#d6a94f;
+  --snow:#fff;
+}
+html{background:#eaf1f7}
+body{
+  background:
+    radial-gradient(ellipse at 4% 8%,rgba(255,255,255,.98) 0 5%,transparent 29%),
+    radial-gradient(ellipse at 96% 24%,rgba(212,235,226,.82),transparent 31%),
+    radial-gradient(ellipse at 8% 88%,rgba(255,226,226,.62),transparent 28%),
+    linear-gradient(135deg,#eaf2f8 0%,#f7f9fb 44%,#eaf3ed 100%);
+  background-attachment:fixed;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.78;
+  background-image:
+    radial-gradient(3px 3px at 8% 16%,#fff 98%,transparent),
+    radial-gradient(2px 2px at 23% 72%,#fff 98%,transparent),
+    radial-gradient(3px 3px at 46% 28%,#fff 98%,transparent),
+    radial-gradient(2px 2px at 67% 83%,#fff 98%,transparent),
+    radial-gradient(3px 3px at 88% 44%,#fff 98%,transparent),
+    radial-gradient(2px 2px at 94% 9%,#fff 98%,transparent);
+  background-size:260px 230px;animation:christmas-drift 26s linear infinite;
+}
+.app-shell,.auth-wrap,.setup-screen,.loading-screen{position:relative;isolation:isolate}
+.app-shell{overflow:hidden;background:transparent;min-height:100vh}
+.app-shell::before{
+  content:"";position:fixed;inset:72px 0 68px;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 0% 22%,rgba(20,91,67,.13),transparent 23%),
+    radial-gradient(ellipse at 100% 54%,rgba(169,47,66,.10),transparent 22%),
+    radial-gradient(ellipse at 50% 100%,rgba(214,169,79,.09),transparent 38%);
+}
+/* Cable de luces: curva visible y focos con halo */
+.app-shell::after,.auth-wrap::after{
+  content:"";position:fixed;top:0;left:0;right:0;height:34px;z-index:30;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 5% -7px,transparent 0 38px,#294c3e 39px 40px,transparent 41px),
+    radial-gradient(ellipse at 25% -5px,transparent 0 38px,#294c3e 39px 40px,transparent 41px),
+    radial-gradient(ellipse at 45% -7px,transparent 0 38px,#294c3e 39px 40px,transparent 41px),
+    radial-gradient(ellipse at 65% -5px,transparent 0 38px,#294c3e 39px 40px,transparent 41px),
+    radial-gradient(ellipse at 85% -7px,transparent 0 38px,#294c3e 39px 40px,transparent 41px),
+    radial-gradient(circle at 5% 22px,#d83f51 0 5px,rgba(216,63,81,.25) 6px 9px,transparent 10px),
+    radial-gradient(circle at 15% 17px,#f2c85d 0 5px,rgba(242,200,93,.25) 6px 9px,transparent 10px),
+    radial-gradient(circle at 25% 22px,#4caa76 0 5px,rgba(76,170,118,.25) 6px 9px,transparent 10px),
+    radial-gradient(circle at 35% 17px,#d83f51 0 5px,rgba(216,63,81,.25) 6px 9px,transparent 10px),
+    radial-gradient(circle at 45% 22px,#f2c85d 0 5px,rgba(242,200,93,.25) 6px 9px,transparent 10px),
+    radial-gradient(circle at 55% 17px,#4caa76 0 5px,rgba(76,170,118,.25) 6px 9px,transparent 10px),
+    radial-gradient(circle at 65% 22px,#d83f51 0 5px,rgba(216,63,81,.25) 6px 9px,transparent 10px),
+    radial-gradient(circle at 75% 17px,#f2c85d 0 5px,rgba(242,200,93,.25) 6px 9px,transparent 10px),
+    radial-gradient(circle at 85% 22px,#4caa76 0 5px,rgba(76,170,118,.25) 6px 9px,transparent 10px),
+    radial-gradient(circle at 95% 17px,#d83f51 0 5px,rgba(216,63,81,.25) 6px 9px,transparent 10px);
+  filter:drop-shadow(0 2px 3px rgba(11,31,58,.18));animation:bulbs-glow 2.8s ease-in-out infinite alternate;
+}
+.topbar{
+  margin-top:28px;height:76px;background:rgba(255,255,255,.88);
+  border:1px solid rgba(255,255,255,.9);border-bottom:3px solid rgba(20,91,67,.18);
+  backdrop-filter:blur(16px);box-shadow:0 9px 28px rgba(11,31,58,.09);
+}
+.topbar-inner{max-width:1180px}
+.main-content{max-width:1180px;padding-top:38px}
+/* Fondo con objetos de escritorio en los márgenes, no encima del contenido */
+@media(min-width:1180px){
+  .app-shell .main-content::before,.app-shell .main-content::after{
+    position:fixed;z-index:-1;pointer-events:none;display:block;user-select:none;
+    font-family:Inter,sans-serif;filter:drop-shadow(0 8px 8px rgba(11,31,58,.10));
+  }
+  .app-shell .main-content::before{
+    content:"🎄";left:22px;top:25%;font-size:76px;opacity:.72;
+  }
+  .app-shell .main-content::after{
+    content:"🎁  ✏️\A📎  ☕";white-space:pre;right:16px;top:48%;font-size:31px;line-height:1.9;opacity:.62;
+  }
+}
+/* Tarjetas con apariencia de estación de trabajo decorada */
+.stat-card,.panel-card,.wish-card,.add-wish,.locked-card,.reveal-card,.auth-card,.setup-card{
+  background:rgba(255,255,255,.94);border:1px solid rgba(205,218,226,.95);
+  box-shadow:0 12px 32px rgba(11,31,58,.075),0 2px 0 rgba(255,255,255,.95) inset;
+  backdrop-filter:blur(8px);
+}
+.stat-card,.panel-card{border-radius:19px}
+.stat-card{border-top:4px solid rgba(20,91,67,.48)}
+.stat-card:nth-child(2){border-top-color:rgba(169,47,66,.55)}
+.stat-card:nth-child(3){border-top-color:rgba(214,169,79,.75)}
+.phase-banner,.draw-card{
+  background:linear-gradient(112deg,#0b3d31 0%,#145b43 54%,#173c50 100%);
+  border:1px solid rgba(255,255,255,.2);box-shadow:0 14px 32px rgba(11,61,49,.2);
+}
+.phase-banner{position:relative;overflow:hidden}
+.phase-banner::after{content:"✦  ❄  ✦";position:absolute;right:22px;bottom:4px;color:#fff;opacity:.12;font-size:36px;letter-spacing:8px;pointer-events:none}
+.eyebrow{color:var(--pine)}
+h1 em{color:var(--berry)}
+.welcome-art{background:linear-gradient(145deg,#fff4e7,#e5f3eb);color:var(--pine);border:1px solid #e0e9df;box-shadow:0 8px 22px rgba(20,91,67,.10)}
+.welcome-art::after{content:"❄";position:absolute;left:-9px;bottom:-10px;color:#7ba9c8;font-size:25px}
+.stat-icon.blue{background:#eaf2ff;color:var(--blue)}
+.stat-icon.amber{background:#fff0e9;color:var(--berry)}
+.stat-icon.navy{background:#e6f2eb;color:var(--pine)}
+.btn.primary{background:linear-gradient(135deg,#145b43,#0b3d31);box-shadow:0 4px 12px rgba(20,91,67,.18)}
+.btn.primary:hover{background:linear-gradient(135deg,#0b3d31,#092f27)}
+.btn.secondary{background:#edf5f0;color:var(--pine);border:1px solid #d6e7dc}
+.count-pill,.admin-chip{background:#e8f3ec;color:var(--pine)}
+.budget-option{background:rgba(255,255,255,.94);border-color:#d9e3e7;box-shadow:0 6px 16px rgba(11,31,58,.045)}
+.budget-option.chosen{border:2px solid var(--pine);background:#eff8f1}
+.budget-option.chosen>b{color:var(--pine)}
+.vote-track i,.mini-progress i{background:linear-gradient(90deg,#176b4a,#4eaa7c)}
+.wish-card,.add-wish{border-radius:18px}
+.add-wish{background:rgba(247,251,248,.94);border:2px dashed #a9c9b5;color:var(--pine)}
+.add-wish>span{background:#e5f2e9;color:var(--pine)}
+.bottom-nav{background:rgba(250,253,250,.94);border-top:1px solid #d6e4dc;box-shadow:0 -8px 26px rgba(11,61,49,.10)}
+.nav-item.active{color:var(--pine)}
+.app-footer{color:#647b70}
+.auth-wrap,.setup-screen,.loading-screen{
+  background:
+    radial-gradient(ellipse at 10% 18%,rgba(20,91,67,.18),transparent 28%),
+    radial-gradient(ellipse at 90% 75%,rgba(169,47,66,.14),transparent 27%),
+    linear-gradient(135deg,#eaf2f8 0%,#f8fbf8 48%,#f7eeee 100%);
+}
+.auth-wrap::before{
+  content:"🎄";position:fixed;left:clamp(12px,7vw,110px);bottom:7vh;z-index:-1;
+  font-size:clamp(90px,15vw,190px);opacity:.78;filter:drop-shadow(0 12px 12px rgba(11,31,58,.12));pointer-events:none;
+}
+.auth-card{border-radius:26px;border-top:5px solid var(--pine);box-shadow:0 24px 70px rgba(11,31,58,.14)}
+.auth-tabs{background:#edf4ef}
+.auth-tabs button.selected{color:var(--pine)}
+.event-mark svg{color:var(--berry)}
+.form-stack input:focus,.form-stack textarea:focus,.panel-card input:focus,.panel-card select:focus{border-color:#4d9b70;box-shadow:0 0 0 3px rgba(77,155,112,.15)}
+@keyframes christmas-drift{from{background-position:0 -230px}to{background-position:0 230px}}
+@keyframes bulbs-glow{from{opacity:.78}to{opacity:1;filter:brightness(1.18) drop-shadow(0 0 5px rgba(242,200,93,.55))}}
+@media(max-width:760px){
+  .topbar{margin-top:20px;height:66px}
+  .app-shell::after,.auth-wrap::after{height:26px}
+  .main-content{padding-top:27px}
+  .app-shell .main-content::before{content:""}
+  .app-shell .main-content::after{content:""}
+  .auth-wrap::before{left:4px;bottom:3vh;font-size:86px;opacity:.34}
+}
+@media(prefers-reduced-motion:reduce){body::before,.app-shell::after,.auth-wrap::after{animation:none!important}}
