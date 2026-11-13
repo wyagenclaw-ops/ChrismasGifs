@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { LogOut, Gift, Clock3, Users, LockKeyhole, Sparkles, Vote, RefreshCw, PartyPopper, ShieldCheck, ChevronRight, Download } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from './lib/supabase';
 import { getPhase, phaseLabels, countdown, money } from './lib/helpers';
@@ -11,7 +11,6 @@ import AdminPanel from './components/AdminPanel';
 
 export default function App(){
  const [session,setSession]=useState(null),[profile,setProfile]=useState(null),[settings,setSettings]=useState(null),[profiles,setProfiles]=useState([]),[votes,setVotes]=useState([]),[items,setItems]=useState([]),[myItems,setMyItems]=useState([]),[assignment,setAssignment]=useState(null),[tab,setTab]=useState('home'),[loading,setLoading]=useState(true),[error,setError]=useState(''),[now,setNow]=useState(new Date()),[installPrompt,setInstallPrompt]=useState(null);
- const authUserIdRef=useRef(null);
  const user=session?.user; const phase=useMemo(()=>getPhase(settings,now),[settings,now]);
  const load=useCallback(async()=>{if(!supabase||!user)return;setError('');const [p,s,v,w,m,a]=await Promise.all([
   supabase.from('profiles').select('*').eq('id',user.id).maybeSingle(),
@@ -24,7 +23,7 @@ export default function App(){
  const firstError=[p,s,v,w,m,a].find(x=>x.error);if(firstError){setError(firstError.error.message);return;}
  setProfile(p.data);setSettings(s.data);setVotes(v.data||[]);setItems(w.data||[]);setProfiles(m.data||[]);setMyItems((w.data||[]).filter(x=>x.user_id===user.id));setAssignment(a.data);
  },[user?.id]);
- useEffect(()=>{if(!supabase){setLoading(false);return;}let mounted=true;supabase.auth.getSession().then(({data})=>{if(!mounted)return;authUserIdRef.current=data.session?.user?.id??null;setSession(data.session);setLoading(false)});const {data:{subscription}}=supabase.auth.onAuthStateChange((event,nextSession)=>{const nextUserId=nextSession?.user?.id??null;const previousUserId=authUserIdRef.current;authUserIdRef.current=nextUserId;setSession(nextSession);if(event==='SIGNED_OUT'){setProfile(null);setSettings(null);setLoading(false);return;}if(previousUserId!==nextUserId){setProfile(null);setSettings(null);if(nextSession)setLoading(true);}});return()=>{mounted=false;subscription.unsubscribe()};},[]);
+ useEffect(()=>{if(!supabase){setLoading(false);return;}supabase.auth.getSession().then(({data})=>{setSession(data.session);setLoading(false)});const {data:{subscription}}=supabase.auth.onAuthStateChange((_event,s)=>{setSession(s);setProfile(null);});return()=>subscription.unsubscribe();},[]);
  useEffect(()=>{if(!user)return;let active=true;(async()=>{await load();if(active)setLoading(false)})();const channel=supabase.channel('event-live').on('postgres_changes',{event:'*',schema:'public',table:'budget_votes'},load).on('postgres_changes',{event:'*',schema:'public',table:'wishlist_items'},load).on('postgres_changes',{event:'*',schema:'public',table:'event_settings'},load).on('postgres_changes',{event:'*',schema:'public',table:'profiles'},load).subscribe();return()=>{active=false;supabase.removeChannel(channel)}},[user?.id,load]);
  useEffect(()=>{const id=setInterval(()=>setNow(new Date()),30000);return()=>clearInterval(id)},[]);
  useEffect(()=>{const handler=e=>{e.preventDefault();setInstallPrompt(e)};window.addEventListener('beforeinstallprompt',handler);return()=>window.removeEventListener('beforeinstallprompt',handler)},[]);
